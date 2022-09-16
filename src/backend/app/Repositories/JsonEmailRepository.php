@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Email;
+use App\Exceptions\EntityNotFoundException;
 use App\Mappers\EmailMapper;
 use Illuminate\Support\Collection;
 
@@ -24,6 +25,7 @@ class JsonEmailRepository implements EmailRepository
      * @param string $email
      *
      * @return Email|null
+     * @throws EntityNotFoundException
      */
     public function findByEmail(string $email): ?Email
     {
@@ -32,7 +34,7 @@ class JsonEmailRepository implements EmailRepository
         $found = $this->list->where('email', '=', $email)->first();
 
         if (!$found) {
-            dd($email, $this->list);
+            throw new EntityNotFoundException(['email' => $email], Email::class);
         }
 
         return $found;

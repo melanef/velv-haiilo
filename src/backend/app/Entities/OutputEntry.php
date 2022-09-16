@@ -13,7 +13,7 @@ class OutputEntry implements JsonSerializable
     /**
      * @inheritDoc
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $output = [
             '_id' => $this->id,

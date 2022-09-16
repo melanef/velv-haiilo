@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Entities\Filter;
+use App\Exceptions\EntityNotFoundException;
 use App\Mappers\FilterMapper;
 use Illuminate\Support\Collection;
 
@@ -20,11 +21,20 @@ class JsonFilterRepository implements FilterRepository
         $this->mapper = $mapper;
     }
 
+    /**
+     * @throws EntityNotFoundException
+     */
     public function findByEnglishName(string $name): Filter
     {
         $this->load();
 
-        return $this->list->where('englishName', '=', $name)->first();
+        $found = $this->list->where('englishName', '=', $name)->first();
+
+        if (!$found) {
+            throw new EntityNotFoundException(['englishName' => $name], Filter::class);
+        }
+
+        return $found;
     }
 
     private function load(): void
