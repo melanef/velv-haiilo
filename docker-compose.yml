@@ -23,20 +23,6 @@ services:
     networks:
       - local
 
-  backend-nginx:
-    image: nginx:1.17-alpine
-    container_name: haiilo-backend-nginx
-    restart: unless-stopped
-    volumes:
-      - ./devops/backend-nginx:/etc/nginx/conf.d
-      - ./src/backend:/var/www/html
-    ports:
-      - '8000:80'
-    networks:
-      - local
-    depends_on:
-      - backend-php
-
 volumes:
     mysql:
         driver: local
